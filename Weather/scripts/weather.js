@@ -1,9 +1,9 @@
 (function (global) {
-    var WeatherViewModel,
+    var CategoryViewModel,
         app = global.app = global.app || {};
 
-    WeatherViewModel = kendo.data.ObservableObject.extend({
-        weatherDataSource: null,
+    CategoryViewModel = kendo.data.ObservableObject.extend({
+        categoryDataSource: null,
 
         init: function () {
             var that = this,
@@ -25,11 +25,11 @@
                 }
             });
 
-            that.set("weatherDataSource", dataSource);
+            that.set("categoryDataSource", dataSource);
         }
     });
 
-    app.weatherService = {
-        viewModel: new WeatherViewModel()
+    app.categoryService = {
+        viewModel: new CategoryViewModel()
     };
 })(window);

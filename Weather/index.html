@@ -1,139 +1,618 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title></title>
-    <meta charset="utf-8" />
-    <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
-    <link href="styles/main.css" rel="stylesheet" />
+    <head>
+        <title></title>
+        <meta charset="utf-8" />
+        <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+        <link href="styles/main.css" rel="stylesheet" />
 
-    <script src="cordova.js"></script>
-    <script src="kendo/js/jquery.min.js"></script>
-    <script src="kendo/js/kendo.mobile.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+        <script src="cordova.js"></script>
+        <script src="kendo/js/jquery.min.js"></script>
+        <script src="kendo/js/kendo.mobile.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
 
-    <script src="scripts/app.js"></script>
-    <script src="scripts/login.js"></script>
-    <script src="scripts/location.js"></script>
-    <script src="scripts/weather.js"></script>
-</head>
-<body>
-    <!--Home View-->
-    <div id="tabstrip-home"
-        data-role="view"
-        data-title="Home">
-        <header data-role="header">
-            <div data-role="navbar">
-                <span data-role="view-title"></span>
-                <a id="skin-change" data-role="button" data-align="right" data-click="app.changeSkin">Flat</a>
-            </div>
-        </header>
+        <script src="scripts/app.js"></script>
+        <script src="scripts/login.js"></script>
+        <script src="scripts/location.js"></script>
+        <script src="scripts/weather.js"></script>
 
-        <h3>Welcome!</h3>
-        <p>
-            Telerik AppBuilder&trade; enables you to build cross-platform device applications regardless of your
-            development platform by combining the convenience of a local development toolset with the
-            power and flexibility of the cloud.
-        </p>
-        <div class="welcome-image"></div>
-    </div>
+        <style>
+            .added
+            {
+                color: green;
+                font-size: .8em;
+                font-size: .8rem;
+                display: block;
+            }
 
-    <!--Login View-->
-    <div id="tabstrip-login"
-        data-role="view"
-        data-title="Login"
-        data-model="app.loginService.viewModel">
+            .item-list.km-list > li,
+            .item-list .km-list > li
+            {
+                overflow: hidden;
+                line-height: 1em;
+            }
 
-        <div class="logo-image"></div>
-        <div>
-            <h3 data-bind="visible: isLoggedIn">Welcome, <span data-bind="    text: username"></span>!</h3>
-            <input id="logout" type="submit" data-role="button" data-bind="click: onLogout, visible: isLoggedIn" value="Logout" class="login-button" />
+            .item-list img,
+            #details img
+            {
+                width: 4em;
+                height: 4em;
+                width: 4rem;
+                height: 4rem;
+                float: left;
+                margin-right: 1em;
+                margin-right: 1rem;
+                -webkit-box-shadow: 0 2px 3px #333;
+                border: 1px solid rgba(0, 0, 0, 0.3);
+                -webkit-border-radius: 4rem;
+                border-radius: 4rem;
+                margin-bottom: 3px;
+                margin-left: 2px;
+            }
+
+            .item-list h2
+            {
+                margin: 0;
+                display: inline-block;
+                font-size: 1.1em;
+                margin-top: 1.4em;
+                font-size: 1.1rem;
+                margin-top: 1.4rem;
+            }
+
+            #cartList h2
+            {
+                margin-top: 1.1rem;
+            }
+
+            #cartList .km-button
+            {
+                font-weight: bold;
+            }
+
+            .item-list a.km-button
+            {
+                position: absolute;
+                right: .6em;
+                right: .6rem;
+                top: 50%;
+                margin-top: -1em;
+                margin-top: -1rem;
+            }
+
+            .km-android .item-list a.km-button
+            {
+                margin-top: -1.35em;
+                margin-top: -1.35rem;
+            }
+
+            .item-list a.details-link
+            {
+                display: block;
+                text-decoration: none;
+                overflow: hidden;
+            }
+
+            .price
+            {
+                color: #4F576F;
+                font-size: 2em;
+                font-size: 2rem;
+                line-height: normal;
+            }
+
+            #cart .price
+            {
+                color: #777;
+                display: block;
+                font-weight: normal;
+                font-size: .8em;
+                font-size: .8rem;
+                line-height: 1em;
+            }
+
+            #details .km-content
+            {
+                padding: 1em;
+                padding: 1rem;
+                -webkit-box-sizing: border-box;
+            }
+
+            #details .km-content p
+            {
+                margin-top: 1em;
+                margin-top: 1rem;
+                font-size: .9em;
+                font-size: .9rem;
+                line-height: 1.2em;
+                line-height: 1.2rem;
+                font-weight: normal;
+                text-shadow: 1px 1px white;
+            }
+
+            #details .km-content aside
+            {
+                display: block;
+                overflow: hidden;
+            }
+
+            #details img
+            {
+                width: 8.4em;
+                height: 8.4em;
+                margin-right: 2em;
+                margin-right: 2rem;
+                margin-bottom: 1em;
+                margin-bottom: 1rem;
+            }
+
+            #details .km-content aside .price
+            {
+                display: block;
+                margin-bottom: 1rem;
+                margin-top: 30px;
+            }
+
+            .details-link
+            {
+                color: #000;
+            }
+
+            .km-android .details-link
+            {
+                color: #fff;
+            }
+
+            #checkout
+            {
+                margin: 1em;
+                margin: 1rem;
+                display: block;
+                text-align: center;
+                font-size: 2em;
+                font-size: 2rem;
+            }
+
+            .list-item-data
+            {
+                float: right;
+                font-weight: normal;
+                color: rgb(146, 163, 189);
+            }
+
+            .km-empty h2,
+            .km-empty #checkout
+            {
+                display: none;
+            }
+
+            #cartList:empty:before
+            {
+                content: "Your cart is empty.";
+                padding: 2em;
+                padding: 2rem;
+                line-height: 3.5em;
+                line-height: 3.5rem;
+                color: #888;
+            }
+
+            .km-android .km-back
+            {
+                display: none;
+            }
+
+            #total
+            {
+                text-align: center;
+                padding: .5em 1em 0;
+                padding: .5rem 1rem 0;
+                font-size: 4em;
+                font-size: 4rem;
+            }
+
+            #total,
+            .km-insetcontent .km-scroll-container > h2,
+            .km-insetcontent .km-scroll-container > h3
+            {
+                color: #4F576F;
+                text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+            }
+
+            .about-button,
+            #menu .item-list .km-button,
+            #index .item-list .km-button
+            {
+                width: 4.2em;
+                text-align: center;
+            }
+
+            .km-ios .red-button
+            {
+                background-color: #B11C1A;
+            }
+            
+            .km-ios .red-button:active
+            {
+                background-color: #910000;
+            }
+            
+            #done-icon, #empty-icon
+            {
+                margin: 20px auto;
+                display: block;
+                width: 128px;
+            }
+            
+            #empty-icon
+            {
+                display: none;
+            }
+
+            .km-empty #empty-icon
+            {
+                display: block;
+            }
+
+            #done h2
+            {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            #done h3, #checkout h3
+            {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            #done-button
+            {
+                margin: 1em;
+                margin: 1rem;
+                display: block;
+                text-align: center;
+                font-size: 1.1em;
+                font-size: 1.1rem;
+            }
+        </style>
+    </head>
+    <body>
+        <!--Home View-->
+        <div id="tabstrip-home"
+             data-role="view"
+             data-title="Home">
+            <header data-role="header">
+                <div data-role="navbar">
+                    <span data-role="view-title"></span>
+                    <!--        <a id="skin-change" data-role="button" data-align="right" data-click="app.changeSkin">Flat</a>-->
+                </div>
+            </header>
+
+            <h3>Welcome!</h3>
+            <p>
+                Weather App
+            </p>
+            <div class="welcome-image"></div>
         </div>
-        <form data-bind="events: { keyup: checkEnter }">
-            <h3 data-bind="invisible: isLoggedIn">Enter your credentials:</h3>
-            <ul data-role="listview" data-style="inset" data-bind="invisible: isLoggedIn">
-                <li>
-                    <label>
-                        <div>Username</div>
-                        <input type="text" data-bind="value: username" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <div>Password</div>
-                        <input type="password" data-bind="value: password" />
-                    </label>
-                </li>
-            </ul>
-            <input id="login" type="submit" data-role="button" data-bind="click: onLogin, invisible: isLoggedIn" value="Login" class="login-button" />
-        </form>
-    </div>
 
-    <!--Location View-->
-    <div id="tabstrip-location"
-        data-role="view"
-        data-title="Location"
-        data-init="app.locationService.initLocation"
-        data-show="app.locationService.show"
-        data-hide="app.locationService.hide"
-        data-model="app.locationService.viewModel"
-        data-stretch="true">
+        <!--Login View-->
+        <div id="tabstrip-login"
+             data-role="view"
+             data-title="Login"
+             data-model="app.loginService.viewModel">
 
-        <div id="map-canvas" class="map" data-bind="visible: isGoogleMapsInitialized"></div>
-
-        <div id="no-map" data-bind="invisible: isGoogleMapsInitialized">
-            <h3>Location requires internet connection to display the map.</h3>
-        </div>
-        <div id="map-search-wrap" class="map-tools" data-bind="visible: isGoogleMapsInitialized">
+            <div class="logo-image"></div>
             <div>
-                <button id="map-navigate-home" class="map-tools-button home" data-bind="click: onNavigateHome"></button>
-                <input id="map-address" type="search" class="map-tools-input" data-bind="value: address" placeholder="Address" />
-                <button id="map-search" class="map-tools-button search" data-bind="click: onSearchAddress"></button>
+                <h3 data-bind="visible: isLoggedIn">
+                    Welcome, <span data-bind="    text: username"></span>!
+                </h3>
+                <input id="logout" type="submit" data-role="button" data-bind="click: onLogout, visible: isLoggedIn" value="Logout" class="login-button" />
             </div>
-        </div>
-    </div>
-
-    <!--Weather View-->
-    <div id="tabstrip-weather"
-        data-role="view"
-        data-title="Weather"
-        data-model="app.weatherService.viewModel">
-
-        <ul data-role="listview" data-style="inset"
-            data-bind="source: weatherDataSource"
-            data-template="weather-forecast-template">
-        </ul>
-    </div>
-
-    <!--Weather forecast template-->
-    <script id="weather-forecast-template" type="text/x-kendo-tmpl">
-        <div class="w-item-template">
-            <span class="w-icon ${image}"></span>
-            <h4 class="w-date">${day}</h4>
-            <div class="w-temp">
-                <span>${highTemperature}<sup>&deg;</sup></span>
-                <span>${lowTemperature}<sup>&deg;</sup></span>
-            </div>
-        </div>
-    </script>
-
-    <!--Layout-->
-    <div data-role="layout" data-id="tabstrip-layout">
-        <!--Header-->
-        <div data-role="header">
-            <div data-role="navbar">
-                <span data-role="view-title"></span>
-            </div>
+            <form data-bind="events: { keyup: checkEnter }">
+                <h3 data-bind="invisible: isLoggedIn">Enter your credentials:</h3>
+                <ul data-role="listview" data-style="inset" data-bind="invisible: isLoggedIn">
+                    <li>
+                        <label>
+                            <div>Username</div>
+                            <input type="text" data-bind="value: username" />
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <div>Password</div>
+                            <input type="password" data-bind="value: password" />
+                        </label>
+                    </li>
+                </ul>
+                <input id="login" type="submit" data-role="button" data-bind="click: onLogin, invisible: isLoggedIn" value="Login" class="login-button" />
+            </form>
         </div>
 
-        <!--Footer-->
-        <div data-role="footer">
-            <div data-role="tabstrip">
-                <a href="#/" data-icon="home">Home</a>
-                <a href="#tabstrip-login" data-icon="contacts">Login</a>
-                <a href="#tabstrip-location" data-icon="search">Location</a>
-                <a href="#tabstrip-weather" data-icon="globe">Weather</a>
+        <!--Location View-->
+        <div id="tabstrip-location"
+             data-role="view"
+             data-title="Location"
+             data-init="app.locationService.initLocation"
+             data-show="app.locationService.show"
+             data-hide="app.locationService.hide"
+             data-model="app.locationService.viewModel"
+             data-stretch="true">
+
+            <div id="map-canvas" class="map" data-bind="visible: isGoogleMapsInitialized"></div>
+
+            <div id="no-map" data-bind="invisible: isGoogleMapsInitialized">
+                <h3>Location requires internet connection to display the map.</h3>
+            </div>
+            <div id="map-search-wrap" class="map-tools" data-bind="visible: isGoogleMapsInitialized">
+                <div>
+                    <button id="map-navigate-home" class="map-tools-button home" data-bind="click: onNavigateHome"></button>
+                    <input id="map-address" type="search" class="map-tools-input" data-bind="value: address" placeholder="Address" />
+                    <button id="map-search" class="map-tools-button search" data-bind="click: onSearchAddress"></button>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+
+        <!--Weather View-->
+        <div id="tabstrip-weather"
+             data-role="view"
+             data-title="Weather"
+             data-model="app.categoryService.viewModel">
+
+            <ul  data-role="listview" data-style="inset"
+                 data-bind="source: categoryDataSource"
+                 data-template="weather-forecast-template">
+            </ul>
+        </div>
+
+        <!--Weather forecast template-->
+        <script id="weather-forecast-template" type="text/x-kendo-tmpl">
+            <div class="w-item-template" id="#=day#"  >
+                <span class="w-icon ${image}"></span>
+                <h4 class="w-date" >${day}</h4>
+        
+            </div>
+        </script>
+
+        <script type="text/javascript">
+                 var ds = new kendo.data.DataSource({
+           
+            transport: { 
+				read: { 
+					url: "menu.json", 
+					dataType: "json" 
+					} 
+				},
+            group: "category",
+            error: function() { console.log(arguments); }
+        });
+            function onclick2(e) {
+                // console.log(e);
+                console.log(e.sender.element.attr('id'));
+                return false;
+            }
+        </script>
+        <div data-title="Categories" data-role="view" id="menu"  data-model="viewModel" data-show="showMenuView">
+
+                <ul id="menuList"
+            class="item-list"
+            data-role="listview"
+            data-template="menuTemplate"
+            data-source="ds"
+        ></ul>
+        </div>
+
+        <div data-role="view" id="details" data-transition="slide" data-layout="default" data-model="viewModel" data-show="showDetailsView">
+            <header data-role="header">
+                <div data-role="navbar">
+                    <a data-role="backbutton" data-align="left">Back</a>
+                    <span data-role="view-title">Proverb</span>
+                </div>
+            </header>
+
+            <div data-role="content">
+                <aside>
+                    <img data-bind="srcPath: currentItem.image" /> <!-- src="content/images/200/#:image#" -->
+                    <span class="price" data-bind="format: currentItem.price"></span>
+                    <a data-role="button" data-bind="click: addToCart">Order</a>
+                </aside>
+                <h2 data-bind="text: currentItem.name"></h2>
+                <p data-bind="text: currentItem.description" ></p>
+                 <img class="f" data-bind="srcPath: currentItem.image" />
+                <span class="added" data-bind="innerText: currentItem.ordered, visible: showLabel"></span>
+            </div>
+        </div>
+
+        <script id="menuTemplate" type="text/x-kendo-template">
+          <!--  <a data-role="button"
+               data-bind="click: addToCart"
+               data-item-id="#:id#">#:kendo.toString(price, "c")#</a>-->
+            <a  class="details-link"
+                data-role="listview-link"
+                href="\#details?id=#:id#">
+            <div class="w-item-template" id="#=name#" >
+                <span class="w-icon ${image}"></span>
+                <h4 class="w-date" >${name}</h4>
+           
+              
+            </div>
+            </a>
+            
+        </script>
+        <!--Layout-->
+        <div data-role="layout" data-id="tabstrip-layout">
+            <!--Header-->
+            <div data-role="header">
+                <div data-role="navbar">
+                    <span data-role="view-title"></span>
+                </div>
+            </div>
+
+            <!--Footer-->
+            <div data-role="footer">
+                <div data-role="tabstrip">
+                    <a href="#/" data-icon="home">Home</a>
+                    <a href="#menu" data-icon="contacts">Login</a>
+                    <a href="#tabstrip-location" data-icon="search">Location</a>
+                    <a href="#tabstrip-weather" data-icon="globe">Weather</a>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function($, undefined) {
+                kendo.data.binders.srcPath = kendo.data.Binder.extend({
+                                                                          refresh: function() {
+                                                                              var value = this.bindings["srcPath"].get();
+                                                                              
+                                                                              if (value) {
+                                                                                  $(this.element).attr("src", "content/images/200/" + value);
+                                                                              }
+                                                                          }
+                                                                      });
+                                                                      
+                kendo.data.binders.format = kendo.data.Binder.extend({
+                                                                         refresh: function() {
+                                                                             var value = this.bindings["format"].get();
+                                                                             
+                                                                             if (value) {
+                                                                                 $(this.element).text(kendo.toString(value, "c"));
+                                                                             }
+                                                                         }
+                                                                     });
+                                                                     
+                kendo.data.binders.innerText = kendo.data.Binder.extend({
+                                                                            refresh: function() {
+                                                                                var value = this.bindings["innerText"].get();
+                                                                                
+                                                                                if (value) {
+                                                                                    $(this.element).text("Item added to cart " + value + " times.");
+                                                                                }
+                                                                            }
+                                                                        });
+                                                                        
+                //viewModel
+                var viewModel = kendo.observable({
+                                                     dataSource: new kendo.data.DataSource({
+                                                                                               transport: { 
+                                                             read: { 
+                                                                                                           url: "menu.json", 
+                                                                                                           dataType: "json" 
+                                                                                                       } 
+                                                         }
+                                                                                           }),
+                                                     added: [],
+                                                     currentItem: null,
+                                                     addToCart: addToCart,
+                                                     removeItem: removeItem,
+                                                     checkout: checkout,
+                                                     showCheckout: showCheckout,
+                                                     showLabel: showLabel,
+                                                     showTotal: showTotal
+                                                 });
+                                                 
+                function showHomeView(e) {
+                    viewModel.dataSource.group([]);
+                    $("#featured").data("kendoMobileListView").options.type = "flat";
+                    viewModel.dataSource.filter({ field: "featured", operator: "eq", value: true});
+                }
+                
+                function showMenuView() {
+                    viewModel.dataSource.filter([]);
+                    viewModel.dataSource.group({field: "category"});
+                } 
+                
+                function showCartView() {
+                    viewModel.showCheckout();
+                }
+                
+                function addToCart(e) {
+                    var item,
+                        ordered;
+                        
+                    if (e.data.id) {
+                        item = e.data     
+                    } else {
+                        item = this.get("currentItem");
+                    }
+                    
+                    ordered = item.get("ordered") || 0;
+                    ordered += 1;
+                    
+                    item.set("ordered", ordered);
+                    
+                    if (ordered === 1) {
+                        this.added.push(item);
+                    }
+                    
+                    e.preventDefault();
+                }
+                
+                function removeItem(e) {
+                    var item = e.data,
+                        index = viewModel.added.indexOf(item),
+                        currentView = app.view();
+                        
+                    item.set("ordered", 0);
+                    viewModel.added.splice(index, 1);
+                    
+                    currentView.scroller.reset();
+                    e.preventDefault();
+                }
+                
+                function checkout(e) {
+                    var that = this,
+                        dataSourceData = this.dataSource.data(),
+                        length = dataSourceData.length;
+                        
+                    setTimeout(function () {
+                        for (idx = 0; idx < length; idx++) {
+                            dataSourceData[idx].set("ordered", 0);
+                        }
+                        
+                        that.set("added", []);
+                    }, 400);
+                }
+                
+                function showCheckout(e) {
+                    var button = $("#checkout");
+                    
+                    if (this.added.length) {
+                        button.show();
+                    } else {
+                        button.hide();
+                    }
+                }
+                
+                function showLabel() {
+                    return this.get("currentItem") && this.get("currentItem").get("ordered") > 0;
+                }
+                
+                function showDetailsView(e) {
+                    var id = parseInt(e.view.params.id),
+                        item = viewModel.dataSource.get(id);
+                        
+                    viewModel.set("currentItem", item);
+                }
+                
+                function showTotal() {
+                    var cartItems = this.get("added"),
+                        total = 0;
+                    for (var idx = 0; idx < cartItems.length; idx++) {
+                        total += cartItems[idx].ordered * cartItems[idx].price;
+                    }
+                    return kendo.toString(total, "c");
+                }
+                
+                $.extend(window, {
+                             showHomeView: showHomeView,
+                             showMenuView: showMenuView,
+                             showCartView: showCartView,
+                             showDetailsView: showDetailsView,
+                             viewModel: viewModel 
+                         });
+            })(jQuery);
+            
+
+        </script>
+    </body>
 </html>

@@ -1,73 +1,108 @@
 [
     {
-        "day": "Monday",
+        "day": "A ring around the sun or moon, means rain or snow coming soon.",
         "highTemperature": 28,
         "lowTemperature": 14,
         "image": "shower"
     }, {
-        "day": "Tuesday",
+        "day": "The moon and the weather may change together,But a change of the moon, will not change the weather.",
         "highTemperature": 35,
         "lowTemperature": 18,
         "image": "sunny"
     }, {
-        "day": "Wednesday",
+        "day": "When grass is dry at morning light. Look for rain before the night.",
         "highTemperature": 30,
         "lowTemperature": 16,
         "image": "partly-sunny"
     }, {
-        "day": "Thursday",
+        "day": "Dew on the grass, rain won't come to pass.",
         "highTemperature": 28,
         "lowTemperature": 13,
         "image": "sunny"
     }, {
-        "day": "Friday",
+        "day": "Sea gull, sea gull, sit on the sand, It's never good weather while you're on the land",
         "highTemperature": 22,
         "lowTemperature": 12,
         "image": "cloudy"
     }, {
-        "day": "Saturday",
+        "day": "When sea-gulls fly to land, a storm is at hand.",
         "highTemperature": 21,
         "lowTemperature": 14,
         "image": "foggy"
     }, {
-        "day": "Sunday",
+        "day": "Rain before seven, fine before eleven. Evening red and morning grey, two sure signs of one fine day.",
         "highTemperature": 33,
         "lowTemperature": 15,
         "image": "storm"
     }, {
-        "day": "Monday",
+        "day": "The sudden storm lasts not three hours. The sharper the blast, the sooner 'tis past.",
         "highTemperature": 28,
         "lowTemperature": 14,
         "image": "shower"
     }, {
-        "day": "Tuesday",
+        "day": "The higher the clouds the better the weather.",
         "highTemperature": 35,
         "lowTemperature": 18,
         "image": "sunny"
     }, {
-        "day": "Wednesday",
+        "day": "Cold is the night when the stars shine bright.",
         "highTemperature": 30,
         "lowTemperature": 16,
         "image": "partly-sunny"
     }, {
-        "day": "Thursday",
+        "day": "Sound travelling far and wide, a stormy day betide.",
         "highTemperature": 28,
         "lowTemperature": 13,
         "image": "sunny"
     }, {
-        "day": "Friday",
+        "day": "When the forest murmurs and the mountain roars, Then close your windows and shut your doors.",
         "highTemperature": 22,
         "lowTemperature": 12,
         "image": "cloudy"
     }, {
-        "day": "Saturday",
+        "day": "When leaves show their undersides, be very sure that rain betides.",
         "highTemperature": 21,
         "lowTemperature": 14,
         "image": "foggy"
     }, {
-        "day": "Sunday",
+        "day": "When stars shine clear and bright, We will have a very cold night",
         "highTemperature": 33,
         "lowTemperature": 15,
         "image": "storm"
-    } 
+    } , {
+        "day": "If bees stay at home, rain will soon come, If they flay away, fine will be the day",
+        "highTemperature": 33,
+        "lowTemperature": 15,
+        "image": "storm"
+    }, {
+        "day": "The first and last frosts are the worst.",
+        "highTemperature": 33,
+        "lowTemperature": 15,
+        "image": "storm"
+    }, {
+        "day": "When clouds look like black smoke a wise man will put on his cloak.",
+        "highTemperature": 33,
+        "lowTemperature": 15,
+        "image": "storm"
+    }, {
+        "day": "A rainbow afternoon, Good weather coming soon",
+        "highTemperature": 33,
+        "lowTemperature": 15,
+        "image": "storm"
+    }, {
+        "day": "A rainbow in the morning, is the shepherd's warning. A rainbow at night is the shepherd's delight.",
+        "highTemperature": 33,
+        "lowTemperature": 15,
+        "image": "storm"
+    }, {
+        "day": "When the chairs squeak, it's of rain they speak.",
+        "highTemperature": 33,
+        "lowTemperature": 15,
+        "image": "storm"
+    }, {
+        "day": "Catchy drawer and sticky door, Coming rain will pour and pour.",
+        "highTemperature": 33,
+        "lowTemperature": 15,
+        "image": "storm"
+    }
 ]
