@@ -369,22 +369,24 @@
             <div class="w-item-template" id="#=day#"  >
                 <span class="w-icon ${image}"></span>
                 <h4 class="w-date" >${day}</h4>
-        
+
             </div>
         </script>
 
         <script type="text/javascript">
-                 var ds = new kendo.data.DataSource({
+            var ds = new kendo.data.DataSource({
            
-            transport: { 
-				read: { 
-					url: "menu.json", 
-					dataType: "json" 
-					} 
-				},
-            group: "category",
-            error: function() { console.log(arguments); }
-        });
+                                                   transport: { 
+                    read: { 
+                                                               url: "menu.json", 
+                                                               dataType: "json" 
+                                                           } 
+                },
+                                                   group: "category",
+                                                   error: function() {
+                                                       console.log(arguments);
+                                                   }
+                                               });
             function onclick2(e) {
                 // console.log(e);
                 console.log(e.sender.element.attr('id'));
@@ -392,15 +394,15 @@
             }
         </script>
         <div data-title="Categories" data-role="view" id="menu"  data-model="viewModel" data-show="showMenuView">
-
-                <ul id="menuList"
-            class="item-list"
-            data-role="listview"
-            data-template="menuTemplate"
-            data-source="ds"
-        ></ul>
+                
+            <ul id="menuList"
+                class="item-list"
+                data-role="listview"
+                data-template="menuTemplate"
+                data-source="ds"
+                ></ul>
         </div>
-
+            
         <div data-role="view" id="details" data-transition="slide" data-layout="default" data-model="viewModel" data-show="showDetailsView">
             <header data-role="header">
                 <div data-role="navbar">
@@ -408,7 +410,7 @@
                     <span data-role="view-title">Proverb</span>
                 </div>
             </header>
-
+                
             <div data-role="content">
                 <aside>
                     <img data-bind="srcPath: currentItem.image" /> <!-- src="content/images/200/#:image#" -->
@@ -417,26 +419,25 @@
                 </aside>
                 <h2 data-bind="text: currentItem.name"></h2>
                 <p data-bind="text: currentItem.description" ></p>
-                 <img class="f" data-bind="srcPath: currentItem.image" />
+               <!-- <img class="f" data-bind="srcPath: currentItem.image" />-->
                 <span class="added" data-bind="innerText: currentItem.ordered, visible: showLabel"></span>
             </div>
         </div>
-
+            
         <script id="menuTemplate" type="text/x-kendo-template">
-          <!--  <a data-role="button"
-               data-bind="click: addToCart"
-               data-item-id="#:id#">#:kendo.toString(price, "c")#</a>-->
+            <!--  <a data-role="button"
+            data-bind="click: addToCart"
+            data-item-id="#:id#">#:kendo.toString(price, "c")#</a>-->
             <a  class="details-link"
                 data-role="listview-link"
                 href="\#details?id=#:id#">
-            <div class="w-item-template" id="#=name#" >
-                <span class="w-icon ${image}"></span>
-                <h4 class="w-date" >${name}</h4>
-           
-              
-            </div>
-            </a>
+                <div class="w-item-template" id="#=name#" >
+                    <span class="w-icon ${image}"></span>
+                    <h4 class="w-date" >${name}</h4>
             
+                </div>
+            </a>
+        
         </script>
         <!--Layout-->
         <div data-role="layout" data-id="tabstrip-layout">
@@ -446,7 +447,7 @@
                     <span data-role="view-title"></span>
                 </div>
             </div>
-
+            
             <!--Footer-->
             <div data-role="footer">
                 <div data-role="tabstrip">
@@ -457,39 +458,39 @@
                 </div>
             </div>
         </div>
-
+            
         <script>
             (function($, undefined) {
                 kendo.data.binders.srcPath = kendo.data.Binder.extend({
                                                                           refresh: function() {
                                                                               var value = this.bindings["srcPath"].get();
-                                                                              
+            
                                                                               if (value) {
                                                                                   $(this.element).attr("src", "content/images/200/" + value);
                                                                               }
                                                                           }
                                                                       });
-                                                                      
+            
                 kendo.data.binders.format = kendo.data.Binder.extend({
                                                                          refresh: function() {
                                                                              var value = this.bindings["format"].get();
-                                                                             
+            
                                                                              if (value) {
                                                                                  $(this.element).text(kendo.toString(value, "c"));
                                                                              }
                                                                          }
                                                                      });
-                                                                     
+            
                 kendo.data.binders.innerText = kendo.data.Binder.extend({
                                                                             refresh: function() {
                                                                                 var value = this.bindings["innerText"].get();
-                                                                                
+            
                                                                                 if (value) {
                                                                                     $(this.element).text("Item added to cart " + value + " times.");
                                                                                 }
                                                                             }
                                                                         });
-                                                                        
+            
                 //viewModel
                 var viewModel = kendo.observable({
                                                      dataSource: new kendo.data.DataSource({
@@ -509,91 +510,91 @@
                                                      showLabel: showLabel,
                                                      showTotal: showTotal
                                                  });
-                                                 
+            
                 function showHomeView(e) {
                     viewModel.dataSource.group([]);
                     $("#featured").data("kendoMobileListView").options.type = "flat";
                     viewModel.dataSource.filter({ field: "featured", operator: "eq", value: true});
                 }
-                
+            
                 function showMenuView() {
                     viewModel.dataSource.filter([]);
                     viewModel.dataSource.group({field: "category"});
                 } 
-                
+            
                 function showCartView() {
                     viewModel.showCheckout();
                 }
-                
+            
                 function addToCart(e) {
                     var item,
                         ordered;
-                        
+            
                     if (e.data.id) {
                         item = e.data     
                     } else {
                         item = this.get("currentItem");
                     }
-                    
+            
                     ordered = item.get("ordered") || 0;
                     ordered += 1;
-                    
+            
                     item.set("ordered", ordered);
-                    
+            
                     if (ordered === 1) {
                         this.added.push(item);
                     }
-                    
+            
                     e.preventDefault();
                 }
-                
+            
                 function removeItem(e) {
                     var item = e.data,
                         index = viewModel.added.indexOf(item),
                         currentView = app.view();
-                        
+            
                     item.set("ordered", 0);
                     viewModel.added.splice(index, 1);
-                    
+            
                     currentView.scroller.reset();
                     e.preventDefault();
                 }
-                
+            
                 function checkout(e) {
                     var that = this,
                         dataSourceData = this.dataSource.data(),
                         length = dataSourceData.length;
-                        
+            
                     setTimeout(function () {
                         for (idx = 0; idx < length; idx++) {
                             dataSourceData[idx].set("ordered", 0);
                         }
-                        
+            
                         that.set("added", []);
                     }, 400);
                 }
-                
+            
                 function showCheckout(e) {
                     var button = $("#checkout");
-                    
+            
                     if (this.added.length) {
                         button.show();
                     } else {
                         button.hide();
                     }
                 }
-                
+            
                 function showLabel() {
                     return this.get("currentItem") && this.get("currentItem").get("ordered") > 0;
                 }
-                
+            
                 function showDetailsView(e) {
                     var id = parseInt(e.view.params.id),
                         item = viewModel.dataSource.get(id);
-                        
+            
                     viewModel.set("currentItem", item);
                 }
-                
+            
                 function showTotal() {
                     var cartItems = this.get("added"),
                         total = 0;
@@ -602,7 +603,7 @@
                     }
                     return kendo.toString(total, "c");
                 }
-                
+            
                 $.extend(window, {
                              showHomeView: showHomeView,
                              showMenuView: showMenuView,
@@ -611,8 +612,8 @@
                              viewModel: viewModel 
                          });
             })(jQuery);
-            
-
+        
+    
         </script>
     </body>
 </html>
